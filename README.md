@@ -331,7 +331,7 @@ black mri_classifier.py
 ## 联系方式
 
 - **GitHub Issues**: [[Issues]](https://github.com/heyteamo01/MRI-/issues)
-- **Email**: 3240101427@zju.edu.cn
+- **Email**: 3240101427@zju.edu.cn or heytea01@gmail.com
 
 ## 致谢
 
