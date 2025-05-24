@@ -1,0 +1,282 @@
+# MRI脑肿瘤分类系统 .gitignore
+# 基于Jun Cheng脑肿瘤数据集
+
+# ================================
+# 原始数据集文件（通常很大，不适合Git）
+# ================================
+# MATLAB数据文件
+*.mat
+
+# 压缩的数据集文件
+brainTumorDataPublic_*.zip
+766_braintumordata/
+brain_tumor_dataset/
+dataset/
+data/
+
+# 交叉验证索引文件（小文件，可以考虑保留）
+# cvind.mat
+
+# 转换后的图像文件
+raw_images/
+organized/
+训练后/
+
+# 处理后的数据
+processed_data/
+train_data/
+test_data/
+validation_data/
+# 字节码文件
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 分发/打包
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# 单元测试/覆盖率报告
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# ================================
+# 机器学习/深度学习相关
+# ================================
+# 训练好的模型文件（太大无法上传GitHub，使用外部存储）
+saved_models/*.pth
+saved_models/*.pt
+saved_models/*.pkl
+saved_models/*.h5
+saved_models/*.onnx
+
+# 保留目录结构但忽略大文件
+!saved_models/.gitkeep
+!saved_models/README.md
+
+# 训练日志
+logs/
+runs/
+lightning_logs/
+
+# 数据集（通常很大，不适合放在Git中）
+data/
+dataset/
+datasets/
+*.csv
+*.json
+*.mat
+*.npy
+*.npz
+
+# 训练生成的图片和结果
+output/
+results/
+experiments/
+checkpoints/
+
+# TensorBoard日志
+tensorboard/
+tb_logs/
+
+# Weights & Biases
+wandb/
+
+# ================================
+# Jupyter Notebook相关
+# ================================
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+profile_default/
+ipython_config.py
+
+# ================================
+# 虚拟环境
+# ================================
+# venv
+venv/
+ENV/
+env/
+.venv/
+.ENV/
+.env/
+
+# conda
+.conda/
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# ================================
+# IDE和编辑器
+# ================================
+# VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# PyCharm
+.idea/
+*.swp
+*.swo
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Vim
+*~
+*.swp
+*.swo
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ================================
+# 操作系统生成的文件
+# ================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ================================
+# 项目特定文件
+# ================================
+# 配置文件（如果包含敏感信息）
+config.ini
+secrets.json
+.env
+
+# 临时文件
+temp/
+tmp/
+*.tmp
+*.temp
+
+# 缓存文件
+cache/
+.cache/
+
+# 日志文件
+*.log
+log/
+
+# 测试图像（如果很大或很多）
+test_images/
+sample_images/
+
+# 用户上传的图像
+uploads/
+
+# Gradio临时文件
+gradio_cached_examples/
+flagged/
+
+# ================================
+# 文档生成
+# ================================
+docs/_build/
+site/
+
+# ================================
+# 其他常见忽略项
+# ================================
+# 压缩文件
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# 大型二进制文件
+*.bin
+*.exe
+*.dll
+*.so
+*.dylib
+
+# 备份文件
+*.bak
+*.backup
+*~
+
+# 个人笔记
+notes.txt
+TODO.txt
+personal_*
