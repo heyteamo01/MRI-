@@ -213,13 +213,22 @@ class MRIClassifier:
         ax1.axis('off')
         
         # 显示预测概率
-        classes = list(result['all_probabilities'].keys())
-        probs = list(result['all_probabilities'].values())
-        
-        bars = ax2.barh(classes, probs)
-        ax2.set_xlabel('概率')
-        ax2.set_title('预测概率分布')
-        ax2.set_xlim(0, 1)
+        class_labels = []
+        probs = []
+        for i in range(len(self.tumor_types)):
+            label = self.tumor_types[i]
+            prob = result['all_probabilities'][label]
+            class_labels.append(label)
+            probs.append(prob)
+
+        class_labels.reverse()
+        probs.reverse()
+
+        # 创建水平条形图
+        y_pos = np.arange(len(class_labels))
+        bars = ax2.barh(y_pos, probs)
+        ax2.set_yticks(y_pos)
+        ax2.set_yticklabels(class_labels)
         
         # 突出显示最高概率
         max_idx = probs.index(max(probs))
