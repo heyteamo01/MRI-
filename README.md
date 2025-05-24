@@ -1,111 +1,112 @@
 # MRI脑肿瘤分类推理系统
 
+基于深度学习的MRI脑肿瘤智能诊断系统，支持脑膜瘤、胶质瘤、垂体瘤三种类型的自动识别。
+
 ## 项目概述
 
-这是一个基于深度学习的MRI脑肿瘤分类推理系统，支持多平台运行（Windows、Mac、Linux），可以自动识别脑膜瘤、胶质瘤、垂体瘤三种肿瘤类型。
+本项目是一个完整的MRI脑肿瘤分类推理系统，使用经典的脑肿瘤数据集进行训练，支持多平台部署，提供Web界面和编程API两种使用方式。
+
+### 技术特点
+- **免训练使用**：直接加载预训练模型进行推理
+- **多平台支持**：Windows、macOS、Linux全兼容
+- **GPU加速**：自动检测CUDA、MPS、CPU最佳设备
+- **双模型支持**：ResNet18和DenseNet121两种架构
+- **友好界面**：基于Gradio的Web界面
+- **高精度**：验证准确率可达96%+
+
+## 数据集信息
+
+### 原始数据集
+- **来源**：[Jun Cheng - 深圳大学生物医学工程学院](https://github.com/chengjun583/brainTumorRetrieval)
+- **数据规模**：3064张T1加权对比增强MRI图像
+- **患者数量**：233名患者
+- **图像尺寸**：512×512像素
+- **许可证**：CC BY 4.0
+- **发布地址**：https://doi.org/10.6084/m9.figshare.1512427.v5
+
+### 肿瘤类型分布
+- **脑膜瘤 (Meningioma)**：708张图像 (23.1%)
+- **胶质瘤 (Glioma)**：1426张图像 (46.5%)  
+- **垂体瘤 (Pituitary)**：930张图像 (30.4%)
+
+### 数据集特点
+- T1加权对比增强序列，注射Gd-DTPA造影剂
+- 体素大小：0.49×0.49×6mm，层间距1mm
+- 包含肿瘤边界标注和二值掩码
+- 采集时间：2005.9-2010.10
+
+### 相关论文
+1. Cheng, Jun, et al. "Enhanced Performance of Brain Tumor Classification via Tumor Region Augmentation and Partition." *PloS one* 10.10 (2015).
+2. Cheng, Jun, et al. "Retrieval of Brain Tumors by Adaptive Spatial Pooling and Fisher Vector Representation." *PloS one* 11.6 (2016).
 
 ## 系统要求
 
 ### 基础要求
-- Python 3.7+
-- 内存: 4GB+ (推荐8GB+)
-- 存储: 2GB+ 可用空间
+- **Python**: 3.7+
+- **内存**: 4GB+ (推荐8GB+)
+- **存储**: 2GB+ 可用空间
+- **处理器**: 支持AVX指令集的CPU
 
 ### GPU支持（可选但推荐）
-- **NVIDIA GPU**: CUDA 11.0+
-- **Apple Silicon Mac**: 自动支持MPS
-- **仅CPU**: 也可运行，但速度较慢
-
-## 安装依赖
-
-### 1. 创建虚拟环境（推荐）
-
-```bash
-# Windows
-python -m venv mri_env
-mri_env\Scripts\activate
-
-# macOS/Linux  
-python3 -m venv mri_env
-source mri_env/bin/activate
-```
-
-### 2. 安装依赖包
-
-```bash
-# 基础依赖
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-
-# 如果有NVIDIA GPU，使用CUDA版本
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
-
-# 其他依赖
-pip install gradio pillow matplotlib numpy scikit-learn
-```
-
-### 3. requirements.txt文件
-
-```txt
-torch>=1.12.0
-torchvision>=0.13.0
-gradio>=3.40.0
-pillow>=8.0.0
-matplotlib>=3.5.0
-numpy>=1.21.0
-scikit-learn>=1.0.0
-```
-
-使用方式：
-```bash
-pip install -r requirements.txt
-```
-
-## 项目结构
-
-```
-mri_classifier/
-├── mri_classifier.py          # 主程序文件
-├── usage_example.py           # 使用示例
-├── requirements.txt           # 依赖文件
-├── config.json               # 配置文件
-├── saved_models/             # 模型文件目录
-│   ├── best_resnet18.pth
-│   └── best_densenet121.pth
-└── test_images/              # 测试图像目录
-    ├── sample1.jpg
-    └── sample2.jpg
-```
+- **NVIDIA GPU**: GTX 1060 / RTX 2060及以上，CUDA 11.0+
+- **Apple Silicon**: M1/M2系列，自动支持MPS加速
+- **仅CPU**: 也可正常运行，推理时间约慢10倍
 
 ## 快速开始
 
-### 1. 准备模型文件
+### 1. 环境准备
 
-确保在 `saved_models/` 目录下有以下文件：
+```bash
+# 克隆项目
+git clone https://github.com/your-username/mri-brain-tumor-classifier.git
+cd mri-brain-tumor-classifier
+
+# 创建虚拟环境（推荐）
+python -m venv mri_env
+
+# 激活虚拟环境
+# Windows:
+mri_env\Scripts\activate
+# macOS/Linux:
+source mri_env/bin/activate
+
+# 安装依赖
+pip install -r requirements.txt
+```
+
+### 2. 模型准备
+
+确保在 `saved_models/` 目录下有训练好的模型文件：
 - `best_resnet18.pth`
 - `best_densenet121.pth`
 
-### 2. 启动Web界面
+如果没有模型文件，请：
+1. 下载预训练模型：[模型下载链接]
+2. 或使用提供的训练代码自行训练
+
+### 3. 启动系统
 
 ```bash
+# 启动Web界面
 python mri_classifier.py
+
+# 系统会自动：
+# - 检测最佳计算设备
+# - 加载训练好的模型  
+# - 启动Web服务
+# - 打开浏览器
 ```
 
-程序会自动：
-- 检测最佳计算设备（GPU/CPU）
-- 加载训练好的模型
-- 启动Web界面
-- 打开浏览器
+### 4. 使用系统
 
-### 3. 使用系统
-
-1. 在Web界面上上传MRI图像
+1. 在Web界面上传MRI图像（支持jpg、png、bmp等格式）
 2. 选择预测模型（ResNet18或DenseNet121）
 3. 点击"开始分析"按钮
-4. 查看预测结果和概率分布
+4. 查看预测结果和概率分布图
 
 ## 编程接口使用
 
-### 基础预测
+### 基础预测示例
 
 ```python
 from mri_classifier import MRIClassifier
@@ -115,23 +116,28 @@ from PIL import Image
 classifier = MRIClassifier(model_dir="saved_models")
 
 # 加载图像
-image = Image.open("test.jpg")
+image = Image.open("sample_mri.jpg")
 
-# 预测
+# 单张预测
 result = classifier.predict(image, model_name='resnet18')
 
 print(f"预测结果: {result['predicted_label']}")
 print(f"置信度: {result['confidence']:.4f}")
+
+# 查看所有概率
+for label, prob in result['all_probabilities'].items():
+    print(f"{label}: {prob:.4f}")
 ```
 
-### 批量预测
+### 批量预测示例
 
 ```python
-images = [Image.open(f"test{i}.jpg") for i in range(1, 6)]
+# 批量处理
+images = [Image.open(f"test_{i}.jpg") for i in range(1, 6)]
 results = classifier.predict_batch(images, model_name='resnet18')
 
 for i, result in enumerate(results):
-    print(f"图像{i+1}: {result['predicted_label']} ({result['confidence']:.3f})")
+    print(f"图像{i+1}: {result['predicted_label']} (置信度: {result['confidence']:.3f})")
 ```
 
 ### 结果可视化
@@ -145,6 +151,55 @@ fig = classifier.visualize_prediction(image, result)
 plt.show()
 ```
 
+## 项目结构
+
+```
+mri_classifier/
+├── README.md                    # 项目说明文档
+├── LICENSE                      # MIT许可证
+├── .gitignore                   # Git忽略文件
+├── requirements.txt             # 完整依赖列表
+├── requirements-minimal.txt     # 核心依赖列表
+├── mri_classifier.py           # 主程序文件
+├── usage_example.py            # 使用示例
+├── setup.py                    # 自动安装脚本
+├── config.json                 # 配置文件
+├── saved_models/               # 模型文件目录
+│   ├── .gitkeep               # 保持目录
+│   ├── best_resnet18.pth      # ResNet18模型
+│   └── best_densenet121.pth   # DenseNet121模型
+├── test_images/               # 测试图像目录
+│   └── sample_*.jpg
+├── logs/                      # 日志文件目录
+└── docs/                     # 文档目录
+    ├── dataset_info.md       # 数据集详细说明
+    ├── model_architecture.md # 模型架构说明
+    └── api_reference.md      # API参考文档
+```
+
+## 性能基准
+
+### 模型性能
+| 模型 | 验证准确率 | 推理时间 | 模型大小 |
+|------|-----------|----------|----------|
+| ResNet18 | 96.33% | ~50ms | ~45MB |
+| DenseNet121 | 87.50% | ~80ms | ~28MB |
+
+### 平台性能
+| 平台 | 设备 | 单张预测时间 | 内存使用 |
+|------|------|-------------|---------|
+| Windows | RTX 3080 | ~50ms | ~2GB |
+| macOS | M1 Pro | ~80ms | ~1.5GB |
+| Linux | CPU only | ~800ms | ~1GB |
+
+### 分类性能（ResNet18）
+| 类别 | 精确率 | 召回率 | F1分数 | AUC |
+|------|--------|--------|--------|-----|
+| 脑膜瘤 | 92% | 95% | 93% | 0.995 |
+| 胶质瘤 | 98% | 95% | 97% | 0.997 |
+| 垂体瘤 | 97% | 100% | 99% | 0.999 |
+| **平均** | **96%** | **97%** | **96%** | **0.997** |
+
 ## 配置选项
 
 ### config.json 配置文件
@@ -156,6 +211,14 @@ plt.show()
     "batch_size": 32,
     "confidence_threshold": 0.7,
     "supported_formats": [".jpg", ".jpeg", ".png", ".bmp", ".tiff"],
+    "image_preprocessing": {
+        "resize": 256,
+        "crop_size": 224,
+        "normalize": {
+            "mean": [0.485, 0.456, 0.406],
+            "std": [0.229, 0.224, 0.225]
+        }
+    },
     "gradio_settings": {
         "share": false,
         "debug": false,
@@ -165,68 +228,119 @@ plt.show()
 }
 ```
 
+## 部署选项
+
+### 1. 本地部署
+```bash
+python mri_classifier.py
+```
+
+### 2. Docker部署
+```dockerfile
+FROM python:3.9-slim
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY . .
+EXPOSE 7860
+
+CMD ["python", "mri_classifier.py"]
+```
+
+### 3. 云端部署
+支持部署到：
+- **Hugging Face Spaces**
+- **Google Colab**  
+- **Azure Container Instances**
+- **AWS EC2**
+
 ## 常见问题
 
-### 1. CUDA内存不足
+### Q: 模型文件太大，如何处理？
+A: 
+1. 使用Git LFS管理大文件
+2. 将模型放在云存储，程序启动时下载
+3. 使用模型量化减小文件大小
+
+### Q: CUDA内存不足怎么办？
+A:
 ```python
-# 减少批处理大小或使用CPU
-classifier = MRIClassifier()
 # 强制使用CPU
+classifier = MRIClassifier()
 classifier.device = torch.device('cpu')
 ```
 
-### 2. 模型文件损坏
-```bash
-# 重新下载模型文件
-# 检查文件完整性
-python -c "import torch; torch.load('saved_models/best_resnet18.pth')"
-```
+### Q: 如何添加新模型？
+A: 在 `_initialize_model` 方法中添加新的模型架构，然后训练并保存模型文件。
 
-### 3. 端口被占用
-```python
-# 在代码中指定端口
-demo.launch(server_port=8080)
-```
+### Q: 如何提高预测精度？
+A:
+1. 使用更多数据增强
+2. 尝试集成学习（多模型投票）
+3. 调整预处理参数
+4. 使用更先进的模型架构
 
-### 4. 中文字体显示问题
-```python
-# Windows
-plt.rcParams['font.family'] = 'Microsoft YaHei'
-# macOS
-plt.rcParams['font.family'] = 'PingFang SC'
-# Linux 
-plt.rcParams['font.family'] = 'DejaVu Sans'
-```
+## 医学免责声明
 
-## 性能基准
-
-| 平台 | 设备 | 单张预测时间 | 内存使用 |
-|------|------|-------------|---------|
-| Windows | RTX 3080 | ~50ms | ~2GB |
-| macOS | M1 Pro | ~80ms | ~1.5GB |
-| Linux | CPU only | ~800ms | ~1GB |
-
-## 安全说明
-
-**重要提醒**: 
+**重要提醒**：
 - 本系统仅供研究和教学使用
 - 不能替代专业医学诊断
-- 临床应用需要专业医生确认
+- 临床应用必须经过专业医生确认
+- 作者不承担任何医疗责任
+
+## 数据使用声明
+
+本项目使用的数据集遵循以下条款：
+- **数据来源**：Jun Cheng, 深圳大学
+- **许可证**：CC BY 4.0
+- **引用要求**：使用数据请引用相关论文
+- **商业使用**：需要额外授权
 
 ## 许可证
 
-本项目采用 MIT 许可证，详情请参阅 LICENSE 文件。
+本项目采用 [MIT许可证](LICENSE)。
 
-## 贡献
+## 贡献指南
 
-欢迎提交 Issue 和 Pull Request！
+欢迎提交Issue和Pull Request！
+
+### 贡献类型
+- 🐛 Bug修复
+- ✨ 新功能
+- 📝 文档改进
+- 🎨 代码优化
+- 🧪 测试用例
+
+### 开发环境搭建
+```bash
+# 克隆开发分支
+git clone -b develop https://github.com/your-username/mri-brain-tumor-classifier.git
+
+# 安装开发依赖
+pip install -r requirements-dev.txt
+
+# 运行测试
+pytest tests/
+
+# 代码格式化
+black mri_classifier.py
+```
 
 ## 联系方式
 
-如有问题，请通过以下方式联系：
-- GitHub Issues
-- Email: 3240101427@zju.edu.cn
+- **GitHub Issues**: [项目Issues页面]
+- **Email**: 3240101427@zju.edu.cn
+
+## 致谢
+
+感谢以下贡献：
+- **Jun Cheng教授**：提供原始数据集
+- **深圳大学生物医学工程学院**：数据采集和标注
+- **开源社区**：PyTorch、Gradio等优秀框架
 
 ---
 
-*最后更新: 2025年5月25日*
+*最后更新：2025年5月25日*
+*版本：v1.0.1*
