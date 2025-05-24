@@ -30,20 +30,9 @@ python mri_classifier.py
 - **Google Drive**: [下载链接](https://drive.google.com/drive/folders/1hXSOIyhXtjlKKjsj5AzvIzUV58TGz0Th?usp=drive_link)
 
 #### 选项B：GitHub Releases
-- 访问项目的 [Releases页面](https://github.com/your-username/mri-brain-tumor-classifier/releases)
+- 访问项目的 [Releases页面](https://github.com/heyteamo01/mri-brain-tumor-classifier/releases/tag/mrt_classifier_model)
 - 下载最新版本的模型文件压缩包
 - 解压到当前目录
-
-#### 选项C：Hugging Face Hub
-```bash
-# 使用Hugging Face Hub下载
-pip install huggingface_hub
-python -c "
-from huggingface_hub import hf_hub_download
-hf_hub_download(repo_id='your-username/mri-brain-tumor', filename='best_resnet18.pth', local_dir='saved_models/')
-hf_hub_download(repo_id='your-username/mri-brain-tumor', filename='best_densenet121.pth', local_dir='saved_models/')
-"
-```
 
 ## 📁 文件放置
 
