@@ -155,26 +155,13 @@ plt.show()
 
 ```
 mri_classifier/
-├── README.md                    # 项目说明文档
-├── LICENSE                      # MIT许可证
-├── .gitignore                   # Git忽略文件
-├── requirements.txt             # 完整依赖列表
-├── requirements-minimal.txt     # 核心依赖列表
-├── mri_classifier.py           # 主程序文件
-├── usage_example.py            # 使用示例
-├── setup.py                    # 自动安装脚本
-├── config.json                 # 配置文件
-├── saved_models/               # 模型文件目录
-│   ├── .gitkeep               # 保持目录
-│   ├── best_resnet18.pth      # ResNet18模型
-│   └── best_densenet121.pth   # DenseNet121模型
-├── test_images/               # 测试图像目录
-│   └── sample_*.jpg
-├── logs/                      # 日志文件目录
-└── docs/                     # 文档目录
-    ├── dataset_info.md       # 数据集详细说明
-    ├── model_architecture.md # 模型架构说明
-    └── api_reference.md      # API参考文档
+├── mri_classifier.py           # 主程序
+├── requirements.txt            # 依赖列表
+├── README.md                   # 使用说明
+├── LICENSE                     # 许可证
+└── saved_models/              # 模型文件目录
+    ├── best_resnet18.pth      # ResNet18模型
+    └── best_densenet121.pth   # DenseNet121模型
 ```
 
 ## 性能基准
